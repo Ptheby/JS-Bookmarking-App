@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Floating Input</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300&family=Nunito:wght@300&family=Open+Sans:wght@500&family=Rubik:wght@500&display=swap"
+      rel="stylesheet" />
+    <style>
+      body,
+      .jumbotron {
+        padding: 30px;
+      }
+      body {
+        background-image: url("https://plus.unsplash.com/premium_photo-1680127401819-d9cac7c99dd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80");
+        background-size: cover;
+        font-family: "Nunito", sans-serif;
+      }
+      .floater {
+        background-color: #f1f3e7;
+        font-size: 19px;
+        line-height: 1.5;
+        border-radius: 5px;
+        max-width: 500px;
+        margin: 0;
+        position: relative;
+      }
+      .floater input[type="text"] {
+        padding: 30px 20px;
+        border: none;
+        box-shadow: none;
+        font-size: 16px;
+        transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all;
+      }
+      .floater-bottom {
+        padding: 6px 9px 8px;
+        text-align: right;
+        border-top: 1px solid #ddd;
+      }
+      .floater-bottom button {
+        padding: 4px 10px;
+        font-size: 10px;
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: rgb(0, 0, 0, 0.6s);
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: 0.3s ease opacity;
+      }
+      body.show-floater .floater {
+        transform: scale(1.1);
+      }
+      body.show-floater .floater input[type="text"] {
+        padding: 50px 20px;
+        font-size: 18px;
+      }
+      body.show-floater .overlay {
+        opacity: 1;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="overlay"></div>
+
+    <div class="floater">
+      <div class="floater-top">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="What's on your mind?" />
+      </div>
+      <div class="floater-bottom">
+        <button type="button" class="btn btn-primary btn-sm">Add</button>
+      </div>
+    </div>
+
+    <script>
+      const body = document.body; //this creates a variable called body equal to the entire doc body
+      const input = document.querySelector("input[type=text]"); //we only want the event listener to respond when
+      //we type in the inmput and not the entire floater itself
+      const overlay = document.querySelector(".overlay");
+      //we want this so we can add event listener to overlay to close the input box down when we click it.
+      //now add event listeners
+
+      function showFloater() {
+        body.classList.add("show-floater"); //what is this doing? it's targeting the body, then
+      }
+      function closeFloater() {
+        body.classList.remove("show-floater");
+      }
+
+      input.addEventListener("focus", showFloater); //adding event listener to input, focus is built in , and this will activate the show flaoter css properties we made
+
+      overlay.addEventListener("click", closeFloater); //add event listener to everywhere else to close the larger showfloater with any click in the overlay
+    </script>
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"></script>
+  </body>
+</html>
