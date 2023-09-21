@@ -1,0 +1,212 @@
+!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <title>Storing Info to Local Storage</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300&family=Nunito:wght@300&family=Open+Sans:wght@500&family=Rubik:wght@500&display=swap"
+      rel="stylesheet" />
+    <style>
+      body,
+      .jumbotron {
+        padding: 30px;
+      }
+      body {
+        background-image: url("https://plus.unsplash.com/premium_photo-1680127401819-d9cac7c99dd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80");
+        background-size: cover;
+        font-family: "Nunito", sans-serif;
+      }
+      .content {
+        max-width: 500px;
+        margin: 0 auto;
+        font-size: 19px;
+        line-height: 1.5;
+        position: relative;
+      }
+      .floater {
+        background-color: #f1f3e7;
+        margin-bottom: 30px;
+        border-radius: 5px;
+        z-index: 11;
+      }
+      .floater input[type="text"] {
+        padding: 30px 20px;
+        border: none;
+        box-shadow: none;
+        font-size: 16px;
+        transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all;
+      }
+      .floater-bottom {
+        padding: 6px 9px 8px;
+        text-align: right;
+        border-top: 1px solid #ddd;
+      }
+      .floater-bottom button {
+        padding: 4px 10px;
+        font-size: 10px;
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: rgb(0, 0, 0, 0.6);
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: 0.3s ease opacity;
+        z-index: 10;
+        pointer-events: none;
+      }
+      body.show-floater .floater {
+        transform: scale(1.1);
+      }
+      body.show-floater .floater input[type="text"] {
+        padding: 50px 20px;
+        font-size: 18px;
+      }
+      body.show-floater .overlay {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      /*================================*/
+      .booksmarks-list {
+        position: relative;
+        z-index: 9;
+      }
+      .bookmark {
+        display: block;
+        background-color: #fff;
+        color: #999;
+        padding: 20px;
+        transition: 0.3s ease all;
+        border-bottom: 1px solid #ddd;
+        font-size: 16px;
+      }
+      .bookmark:hover {
+        color: #1ce;
+        text-decoration: none;
+      }
+      .bookmark:first-child {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .bookmark:last-child {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-bottom: 0;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="overlay"></div>
+
+    <div class="floater content">
+      <form class="bookmark-form">
+        <div class="floater-top">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="What's on your mind?" />
+        </div>
+        <div class="floater-bottom">
+          <button type="submit" class="btn btn-primary btn-sm">Add</button>
+        </div>
+      </form>
+    </div>
+    <div class="bookmarks-list content"></div>
+
+    <script>
+      const body = document.body; //this creates a variable called body equal to the entire doc body
+      const input = document.querySelector("input[type=text]"); //we only want the event listener to respond when
+      //we type in the inmput and not the entire floater itself
+      const overlay = document.querySelector(".overlay");
+      //we want this so we can add event listener to overlay to close the input box down when we click it.
+      //now add event listeners
+
+      function showFloater() {
+        body.classList.add("show-floater"); //is this doing? it's targeting the body, then
+      }
+      function closeFloater() {
+        body.classList.remove("show-floater");
+      }
+
+      input.addEventListener("focusin", showFloater); //adding event listener to input, focus is built in , and this will activate the show flaoter css properties we made
+      input.addEventListener("focusout", closeFloater); //adding event listener to input, focus is built in , and this will activate the show flaoter css properties we made
+
+      overlay.addEventListener("click", closeFloater); //add event listener to everywhere else to close the larger showfloater with any click in the overlay
+
+      //=============================
+
+      const bookmarksList = document.querySelector(".bookmarks-list");
+      const bookmarkForm = document.querySelector(".bookmark-form");
+      const bookmarkInput = bookmarkForm.querySelector("input[type=text]");
+      const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+
+      console.table(bookmarks);
+
+      function createBookmark(event) {
+        event.preventDefault();
+
+        //add a new book to the bookmarks
+        const title = bookmarkInput.value; //this takes the value from the bookmarkInput and makes it a variable named "title"
+        const bookmark = {
+          title: title,
+        }; //this takes that title variable and makes it the value of the "title" key in the new object variable named bookmark
+        bookmarks.push(bookmark); //this takes that new title and pushes it into the "bookmarks" array we made
+        fillBookmarksList(bookmarks);
+        storeBookmarks(bookmarks);
+        bookmarkForm.reset();
+        console.table(bookmarks);
+        //save that bookmarks list to local storage
+
+        // const title = bookmarkInput.value;
+        // const bookmark = document.createElement("a");
+        // bookmark.className = "bookmark";
+        // bookmark.innerText = title;
+        // bookmark.href = "#";
+        // bookmark.target = "_blank";
+        // bookmarkslist.appendChild(bookmark);
+      }
+
+      function fillBookmarksList(bookmarks = []) {
+        const bookmarksHtml = bookmarks
+          .map((bookmark) => {
+            //map reformats what's in an array!
+            //take this bookmarks array, and reformat it with the map to what we want int he html below this//
+            return `
+            <a href='#' class='bookmark'>
+                ${bookmark.title}
+                </a>
+        `;
+          })
+          .join(" ");
+        bookmarksList.innerHTML = bookmarksHtml;
+        // console.log(bookmarksHtml);
+      }
+
+      function storeBookmarks(bookmarks = []) {
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks)); //in notes. we arecreating afunction here that uses the bookmarks empty array as a parameter, sets local storage with the key "bookmkarks" and value is a JSON with stringify meethod to turn the values in the array to strings
+      } //then we call this funxtion up there^
+
+      bookmarkForm.addEventListener("submit", createBookmark);
+    </script>
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"></script>
+  </body>
+</html>
