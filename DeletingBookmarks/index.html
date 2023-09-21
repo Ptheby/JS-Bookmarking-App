@@ -6,12 +6,11 @@
       name="viewport"
       content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
     <title>Deleting Bookmarks</title>
-    <link rel="stylesheet" href=
-    "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
-      <link rel="stylesheet" href=
-      "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-      </head>
-    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -86,7 +85,7 @@
         z-index: 9;
       }
       .bookmark {
-        display: flex;
+        display: block;
         background-color: #fff;
         color: #999;
         padding: 20px;
@@ -107,38 +106,6 @@
         border-bottom-right-radius: 5px;
         border-bottom: 0;
       }
-      .bookmark .img {
-        background-color: #ddd;
-        border-radius: 3px;
-        background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Indian_chameleon_From_Kanakpura%2C_Karnataka.jpg/220px-Indian_chameleon_From_Kanakpura%2C_Karnataka.jpg');
-        background-size:cover ;
-        width: 80px;
-        height: 60px;
-        margin-right: 20pxs;
-      }
-      .bookmark .title {
-        display: flex;
-        align-items: center;
-      }
-      .bookmark .bi-check2-square-remove {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        color: #eee;
-        font-size: 12px;
-        transition: 0.3s ease color;
-        cursor: pointer;
-
-      }
-      .bookmark:hover .bi-check2-square-remove {
-        color: #aaa;
-
-      }
-
-
-
-
-
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   </head>
@@ -221,11 +188,7 @@
             //take this bookmarks array, and reformat it with the map to what we want int he html below this//
             return `
             <a href='#' class='bookmark'>
-              <div class='img'></div>
-              
-              <div class='title'> 
-                 ${bookmark.title}</div>
-              <i class="bi-check2-square"></i>
+                ${bookmark.title}
                 </a>
         `;
           })
@@ -234,21 +197,6 @@
         // console.log(bookmarksHtml);
       }
 
-      
-      
-      function removeBookmark() {
-        //find the index
-        //remove it from bookmsarks using splice
-        //fil list
-       //store back to local storage
-      }
-      
-      
-      
-      
-      
-      
-      
       function storeBookmarks(bookmarks = []) {
         localStorage.setItem("bookmarks", JSON.stringify(bookmarks)); //in notes. we arecreating afunction here that uses the bookmarks empty array as a parameter, sets local storage with the key "bookmkarks" and value is a JSON with stringify meethod to turn the values in the array to strings
       } //then we call this funxtion up there^
@@ -256,34 +204,9 @@
       bookmarkForm.addEventListener("submit", createBookmark);
     </script>
 
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
       crossorigin="anonymous"></script>
   </body>
 </html>
